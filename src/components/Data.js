@@ -1,58 +1,87 @@
 import { useSelector } from "react-redux";
-import { getMap } from "../registry/mapRegistry";
 import { useEffect } from "react";
 
+import { getMap } from "../registry/mapRegistry";
+import { getAllLines, getAllPoints, getAllPolygons, initData } from "../registry/dataRegistry";
+
 const Data = () => {
-  const { points, polygons, isMapReady } = useSelector((state) => {
+  const { isMapReady } = useSelector((state) => {
     return state.global;
   });
 
-  const applyLayers = () => {
-    if (!isMapReady) return;
+  // const points = getAllPoints();
+  // const lines = getAllLines();
+  // const polygons = getAllPolygons();
 
-    const map = getMap();
-    if (!map) return;
+  // const applyLayers = () => {
+  //   if (!isMapReady) return;
 
-    // === Points ===
-    const ptsFC = { type: "FeatureCollection", features: points || [] };
+  //   const map = getMap();
+  //   if (!map) return;
 
-    if (!map.getSource("layer_point")) {
-      map.addSource("layer_point", { type: "geojson", data: ptsFC });
-    } else {
-      map.getSource("layer_point").setData(ptsFC);
-    }
+  //   // === Points ===
+  //   const ptsFC = { type: "FeatureCollection", features: points || [] };
 
-    if (!map.getLayer("layer_point")) {
-      map.addLayer({
-        id: "layer_point",
-        type: "circle",
-        source: "layer_point",
-        paint: { "circle-color": "#990000" },
-      });
-    }
+  //   if (!map.getSource("layer_point")) {
+  //     map.addSource("layer_point", { type: "geojson", data: ptsFC });
+  //   } else {
+  //     map.getSource("layer_point").setData(ptsFC);
+  //   }
 
-    // === Polygons ===
-    const polyFC = { type: "FeatureCollection", features: polygons || [] };
+  //   if (!map.getLayer("layer_point")) {
+  //     map.addLayer({
+  //       id: "layer_point",
+  //       type: "circle",
+  //       source: "layer_point",
+  //       paint: { "circle-color": "#990000" },
+  //     });
+  //   }
 
-    if (!map.getSource("layer_polygon")) {
-      map.addSource("layer_polygon", { type: "geojson", data: polyFC });
-    } else {
-      map.getSource("layer_polygon").setData(polyFC);
-    }
+  //   // === Polygons ===
+  //   const polyFC = { type: "FeatureCollection", features: polygons || [] };
 
-    if (!map.getLayer("layer_polygon")) {
-      map.addLayer({
-        id: "layer_polygon",
-        type: "fill",
-        source: "layer_polygon",
-        paint: { "fill-color": "#ffb84dff", "fill-opacity": 0.5 },
-      });
-    }
-  };
+  //   if (!map.getSource("layer_polygon")) {
+  //     map.addSource("layer_polygon", { type: "geojson", data: polyFC });
+  //   } else {
+  //     map.getSource("layer_polygon").setData(polyFC);
+  //   }
+
+  //   if (!map.getLayer("layer_polygon")) {
+  //     map.addLayer({
+  //       id: "layer_polygon",
+  //       type: "fill",
+  //       source: "layer_polygon",
+  //       paint: { "fill-color": "#ffb84dff", "fill-opacity": 0.5 },
+  //     });
+  //   }
+
+  //   // === Polygons ===
+  //   const lineFC = { type: "FeatureCollection", features: lines || [] };
+
+  //   if (!map.getSource("layer_line")) {
+  //     map.addSource("layer_line", { type: "geojson", data: lineFC });
+  //   } else {
+  //     map.getSource("layer_line").setData(lineFC);
+  //   }
+
+  //   if (!map.getLayer("layer_line")) {
+  //     map.addLayer({
+  //       id: "layer_line",
+  //       type: "fill",
+  //       source: "layer_line",
+  //       paint: { "fill-color": "#ffb84dff", "fill-opacity": 0.5 },
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   console.log("ada yang berubah")
+  //   applyLayers();
+  // }, [isMapReady, JSON.stringify(points), JSON.stringify(lines), JSON.stringify(polygons)])
 
   useEffect(() => {
-    applyLayers();
-  }, [isMapReady, JSON.stringify(points), JSON.stringify(polygons)])
+    if (isMapReady) initData();
+  }, [isMapReady])
 
   return null;
 }

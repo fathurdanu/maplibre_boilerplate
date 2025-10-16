@@ -13,6 +13,7 @@ export function getMap() {
 }
 
 export function clearMap() {
+  try { _map.remove() } catch { }
   _map = null;
 }
 
@@ -27,5 +28,6 @@ export function getDraw() {
 }
 
 export function clearDraw() {
+  _draw.deleteAll();
   _draw = null;
 }
