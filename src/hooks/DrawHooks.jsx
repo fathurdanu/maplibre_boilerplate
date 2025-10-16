@@ -4,18 +4,9 @@ import { useSelector } from 'react-redux';
 import { pushLine, pushPoint, pushPolygon } from '../registry/dataRegistry';
 
 function DrawHooks() {
-  // let activeFeatureId = "";
-  let undoStack = [];
-  // let redoStack = []
-  // let lastCounts = {};
-
   const { isMapReady } = useSelector((state) => {
     return state.global;
   });
-
-  useEffect(() => {
-    console.log("undoStack", undoStack)
-  }, [undoStack.length])
 
   const on_create = (params) => {
     const draw = getDraw();
